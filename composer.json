@@ -3,14 +3,14 @@
     "description": "Laravel SDK for DKBSign self-sign",
     "keywords": [
         "dkbs",
-        "dkbsign",
+        "DKBSign",
         "dkbsign-sdk-laravel",
         "laravel",
         "signature",
         "self-sign",
         "pdf"
     ],
-    "homepage": "https://github.com/dkbs/dkbsign-sdk-laravel",
+    "homepage": "https://github.com/DKBSDEV-TEAM/dkbsign-sdk-laravel",
     "license": "MIT",
     "type": "library",
     "authors": [
@@ -31,12 +31,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Dkbs\\LaravelDkbsign\\": "src/"
+            "Dkbs\\LaravelDKBSign\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Dkbs\\LaravelDkbsign\\Tests\\": "tests/"
+            "Dkbs\\LaravelDKBSign\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -49,10 +49,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Dkbs\\LaravelDkbsign\\DkbsignServiceProvider"
+                "Dkbs\\LaravelDKBSign\\DKBSignServiceProvider"
             ],
             "aliases": {
-                "Dkbsign": "Dkbs\\LaravelDkbsign\\Facades\\Dkbsign"
+                "DKBSign": "Dkbs\\LaravelDKBSign\\Facades\\DKBSign"
             }
         }
     }

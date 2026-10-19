@@ -1,6 +1,6 @@
 <?php
 
-namespace Dkbs\LaravelDkbsign\Support;
+namespace Dkbs\LaravelDKBSign\Support;
 
 readonly class Signer
 {

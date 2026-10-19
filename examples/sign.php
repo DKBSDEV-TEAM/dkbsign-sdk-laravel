@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use Dkbs\LaravelDkbsign\Enums\FieldType;
-use Dkbs\LaravelDkbsign\Enums\SignatureLevel;
-use Dkbs\LaravelDkbsign\Support\Field;
-use Dkbs\LaravelDkbsign\Support\Position;
+use Dkbs\LaravelDKBSign\Enums\FieldType;
+use Dkbs\LaravelDKBSign\Enums\SignatureLevel;
+use Dkbs\LaravelDKBSign\Support\Field;
+use Dkbs\LaravelDKBSign\Support\Position;
 
 require __DIR__.'/bootstrap.php';
 

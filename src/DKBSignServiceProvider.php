@@ -1,39 +1,39 @@
 <?php
 
-namespace Dkbs\LaravelDkbsign;
+namespace Dkbs\LaravelDKBSign;
 
-use Dkbs\LaravelDkbsign\Http\DkbsignClient;
+use Dkbs\LaravelDKBSign\Http\DKBSignClient;
 use Illuminate\Support\ServiceProvider;
 
-class DkbsignServiceProvider extends ServiceProvider
+class DKBSignServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/dkbsign.php', 'dkbsign');
 
-        $this->app->singleton(DkbsignClient::class, function ($app) {
+        $this->app->singleton(DKBSignClient::class, function ($app) {
             $config = $app['config']['dkbsign'];
 
-            return new DkbsignClient(
+            return new DKBSignClient(
                 rtrim((string) $config['base_url'], '/'),
                 (string) ($config['token'] ?? ''),
                 (int) $config['timeout'],
             );
         });
 
-        $this->app->singleton(DkbsignManager::class, function ($app) {
+        $this->app->singleton(DKBSignManager::class, function ($app) {
             $config = $app['config']['dkbsign'];
 
-            return new DkbsignManager(
-                $app->make(DkbsignClient::class),
+            return new DKBSignManager(
+                $app->make(DKBSignClient::class),
                 rtrim((string) $config['base_url'], '/'),
                 (string) ($config['token'] ?? ''),
                 (int) $config['timeout'],
             );
         });
 
-        $this->app->bind(Dkbsign::class, function ($app) {
-            return $app->make(DkbsignManager::class)->sign();
+        $this->app->bind(DKBSign::class, function ($app) {
+            return $app->make(DKBSignManager::class)->sign();
         });
     }
 

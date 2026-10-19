@@ -1,14 +1,14 @@
 <?php
 
-namespace Dkbs\LaravelDkbsign;
+namespace Dkbs\LaravelDKBSign;
 
-use Dkbs\LaravelDkbsign\Http\ApiResponse;
-use Dkbs\LaravelDkbsign\Http\DkbsignClient;
+use Dkbs\LaravelDKBSign\Http\ApiResponse;
+use Dkbs\LaravelDKBSign\Http\DKBSignClient;
 
-class DkbsignManager
+class DKBSignManager
 {
     public function __construct(
-        private readonly DkbsignClient $client,
+        private readonly DKBSignClient $client,
         private readonly string $baseUrl,
         private readonly string $token,
         private readonly int $timeout,
@@ -22,8 +22,8 @@ class DkbsignManager
     /**
      * New fluent self-sign session (fresh state for setFile / addField / selfSign).
      */
-    public function sign(): Dkbsign
+    public function sign(): DKBSign
     {
-        return new Dkbsign($this->baseUrl, $this->token, $this->timeout, $this->client);
+        return new DKBSign($this->baseUrl, $this->token, $this->timeout, $this->client);
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace Dkbs\LaravelDkbsign\Exceptions;
+namespace Dkbs\LaravelDKBSign\Exceptions;
 
 use Exception;
 use Throwable;
 
-class DkbsignException extends Exception
+class DKBSignException extends Exception
 {
     public function __construct(
         string $message,
