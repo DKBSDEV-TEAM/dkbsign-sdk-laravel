@@ -1,29 +1,29 @@
 <?php
 
-namespace Dkbs\LaravelDkbsign\Tests\Unit;
+namespace Dkbs\LaravelDKBSign\Tests\Unit;
 
-use Dkbs\LaravelDkbsign\Dkbsign;
-use Dkbs\LaravelDkbsign\Enums\FieldType;
-use Dkbs\LaravelDkbsign\Enums\SignatureLevel;
-use Dkbs\LaravelDkbsign\Exceptions\DkbsignException;
-use Dkbs\LaravelDkbsign\Http\DkbsignClient;
-use Dkbs\LaravelDkbsign\Support\Field;
-use Dkbs\LaravelDkbsign\Support\Position;
+use Dkbs\LaravelDKBSign\DKBSign;
+use Dkbs\LaravelDKBSign\Enums\FieldType;
+use Dkbs\LaravelDKBSign\Enums\SignatureLevel;
+use Dkbs\LaravelDKBSign\Exceptions\DKBSignException;
+use Dkbs\LaravelDKBSign\Http\DKBSignClient;
+use Dkbs\LaravelDKBSign\Support\Field;
+use Dkbs\LaravelDKBSign\Support\Position;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
-class DkbsignTest extends TestCase
+class DKBSignTest extends TestCase
 {
     public function test_send_otp_returns_api_response(): void
     {
-        $dkbsign = $this->dkbsignWithResponses([
+        $client = $this->dkbsignWithResponses([
             new Response(200, [], json_encode(['email' => 'user@example.com'], JSON_THROW_ON_ERROR)),
         ]);
 
-        $response = $dkbsign->sendOtp();
+        $response = $client->sendOtp();
 
         $this->assertSame(200, $response->statusCode);
         $this->assertSame('user@example.com', $response->body['email']);
@@ -33,7 +33,7 @@ class DkbsignTest extends TestCase
     {
         $pdf = $this->tempFile('doc.pdf', '%PDF-1.4');
 
-        $dkbsign = $this->dkbsignWithResponses([
+        $client = $this->dkbsignWithResponses([
             new Response(200, [], json_encode([
                 'message' => 'Document signé avec succès',
                 'document_uuid' => 'uuid-1',
@@ -42,7 +42,7 @@ class DkbsignTest extends TestCase
             ], JSON_THROW_ON_ERROR)),
         ]);
 
-        $response = $dkbsign
+        $response = $client
             ->setFile($pdf)
             ->setSignatureLevel(SignatureLevel::SIMPLE)
             ->addField(0, [
@@ -57,12 +57,12 @@ class DkbsignTest extends TestCase
 
     public function test_self_sign_throws_when_pdf_missing(): void
     {
-        $dkbsign = $this->dkbsignWithResponses([]);
+        $client = $this->dkbsignWithResponses([]);
 
-        $this->expectException(DkbsignException::class);
+        $this->expectException(DKBSignException::class);
         $this->expectExceptionMessage('PDF file not readable');
 
-        $dkbsign
+        $client
             ->setFile('/path/does/not/exist.pdf')
             ->addField(0, [
                 (new Field(FieldType::SIGNATURE))
@@ -74,16 +74,16 @@ class DkbsignTest extends TestCase
     /**
      * @param  list<Response>  $responses
      */
-    private function dkbsignWithResponses(array $responses): Dkbsign
+    private function dkbsignWithResponses(array $responses): DKBSign
     {
         $http = new Client([
             'handler' => HandlerStack::create(new MockHandler($responses)),
             'http_errors' => false,
         ]);
 
-        $client = new DkbsignClient('https://api.dkbsign.test', 'token', 30, $http);
+        $client = new DKBSignClient('https://api.dkbsign.test', 'token', 30, $http);
 
-        return new Dkbsign('https://api.dkbsign.test', 'token', 30, $client);
+        return new DKBSign('https://api.dkbsign.test', 'token', 30, $client);
     }
 
     private function tempFile(string $name, string $contents): string

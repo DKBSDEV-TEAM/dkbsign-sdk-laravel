@@ -1,21 +1,21 @@
 <?php
 
-namespace Dkbs\LaravelDkbsign\Facades;
+namespace Dkbs\LaravelDKBSign\Facades;
 
-use Dkbs\LaravelDkbsign\DkbsignManager;
-use Dkbs\LaravelDkbsign\Http\ApiResponse;
+use Dkbs\LaravelDKBSign\DKBSignManager;
+use Dkbs\LaravelDKBSign\Http\ApiResponse;
 use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static ApiResponse sendOtp()
- * @method static \Dkbs\LaravelDkbsign\Dkbsign sign()
+ * @method static \Dkbs\LaravelDKBSign\DKBSign sign()
  *
- * @see DkbsignManager
+ * @see DKBSignManager
  */
-class Dkbsign extends Facade
+class DKBSign extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return DkbsignManager::class;
+        return DKBSignManager::class;
     }
 }

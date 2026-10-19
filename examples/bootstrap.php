@@ -33,7 +33,7 @@ function dkbsign_config(string $key, mixed $default = null): mixed
     };
 }
 
-function dkbsign_client(): Dkbs\LaravelDkbsign\Dkbsign
+function dkbsign_client(): Dkbs\LaravelDKBSign\DKBSign
 {
     $token = (string) dkbsign_config('token');
     if ($token === '') {
@@ -41,7 +41,7 @@ function dkbsign_client(): Dkbs\LaravelDkbsign\Dkbsign
         exit(1);
     }
 
-    return new Dkbs\LaravelDkbsign\Dkbsign(
+    return new Dkbs\LaravelDKBSign\DKBSign(
         (string) dkbsign_config('base_url'),
         $token,
         (int) dkbsign_config('timeout'),

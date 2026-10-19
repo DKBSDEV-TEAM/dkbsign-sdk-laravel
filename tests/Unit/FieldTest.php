@@ -1,10 +1,10 @@
 <?php
 
-namespace Dkbs\LaravelDkbsign\Tests\Unit;
+namespace Dkbs\LaravelDKBSign\Tests\Unit;
 
-use Dkbs\LaravelDkbsign\Enums\FieldType;
-use Dkbs\LaravelDkbsign\Support\Field;
-use Dkbs\LaravelDkbsign\Support\Position;
+use Dkbs\LaravelDKBSign\Enums\FieldType;
+use Dkbs\LaravelDKBSign\Support\Field;
+use Dkbs\LaravelDKBSign\Support\Position;
 use PHPUnit\Framework\TestCase;
 
 class FieldTest extends TestCase

@@ -1,8 +1,8 @@
 <?php
 
-namespace Dkbs\LaravelDkbsign\Support;
+namespace Dkbs\LaravelDKBSign\Support;
 
-use Dkbs\LaravelDkbsign\Enums\FieldType;
+use Dkbs\LaravelDKBSign\Enums\FieldType;
 use InvalidArgumentException;
 
 class Field

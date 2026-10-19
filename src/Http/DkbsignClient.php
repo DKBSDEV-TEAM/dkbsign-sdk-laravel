@@ -1,14 +1,14 @@
 <?php
 
-namespace Dkbs\LaravelDkbsign\Http;
+namespace Dkbs\LaravelDKBSign\Http;
 
-use Dkbs\LaravelDkbsign\Exceptions\DkbsignException;
+use Dkbs\LaravelDKBSign\Exceptions\DKBSignException;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 
-class DkbsignClient
+class DKBSignClient
 {
     private ClientInterface $http;
 
@@ -45,7 +45,7 @@ class DkbsignClient
                 'json' => $body,
             ]);
         } catch (GuzzleException $e) {
-            throw new DkbsignException('DKBSign request failed: '.$e->getMessage(), 0, null, $e);
+            throw new DKBSignException('DKBSign request failed: '.$e->getMessage(), 0, null, $e);
         }
 
         return $this->toApiResponse($response);
@@ -111,14 +111,14 @@ class DkbsignClient
                 'multipart' => $multipart,
             ]);
         } catch (GuzzleException $e) {
-            throw new DkbsignException('DKBSign request failed: '.$e->getMessage(), 0, null, $e);
+            throw new DKBSignException('DKBSign request failed: '.$e->getMessage(), 0, null, $e);
         }
 
         return $this->toApiResponse($response);
     }
 
     /**
-     * @throws DkbsignException
+     * @throws DKBSignException
      */
     public function downloadBinary(string $url): string
     {
@@ -130,7 +130,7 @@ class DkbsignClient
                 ],
             ]);
         } catch (GuzzleException $e) {
-            throw new DkbsignException('DKBSign request failed: '.$e->getMessage(), 0, null, $e);
+            throw new DKBSignException('DKBSign request failed: '.$e->getMessage(), 0, null, $e);
         }
 
         $status = $response->getStatusCode();
@@ -142,7 +142,7 @@ class DkbsignClient
                 $body = $raw !== '' ? ['message' => $raw] : [];
             }
 
-            throw DkbsignException::fromResponse(
+            throw DKBSignException::fromResponse(
                 $status,
                 $body,
                 'DKBSign download failed (HTTP '.$status.')',
@@ -180,7 +180,7 @@ class DkbsignClient
         }
 
         if ($status >= 400) {
-            throw DkbsignException::fromResponse(
+            throw DKBSignException::fromResponse(
                 $status,
                 $body,
                 'DKBSign API error (HTTP '.$status.')',

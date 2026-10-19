@@ -26,7 +26,7 @@ php examples/send-otp.php
 php examples/sign.php --otp=123456
 ```
 
-Ces scripts utilisent la classe `Dkbsign` directement (pas besoin d’`artisan`).
+Ces scripts utilisent la classe `DKBSign` directement (pas besoin d’`artisan`).
 
 ## Installation
 
@@ -69,18 +69,18 @@ DKBSIGN_TIMEOUT=120
 ## Utilisation (Facade)
 
 ```php
-use Dkbs\LaravelDkbsign\Facades\Dkbsign;
-use Dkbs\LaravelDkbsign\Enums\FieldType;
-use Dkbs\LaravelDkbsign\Enums\SignatureLevel;
-use Dkbs\LaravelDkbsign\Support\Field;
-use Dkbs\LaravelDkbsign\Support\Position;
+use Dkbs\LaravelDKBSign\Facades\DKBSign;
+use Dkbs\LaravelDKBSign\Enums\FieldType;
+use Dkbs\LaravelDKBSign\Enums\SignatureLevel;
+use Dkbs\LaravelDKBSign\Support\Field;
+use Dkbs\LaravelDKBSign\Support\Position;
 
 // 1. OTP
-$otpResponse = Dkbsign::sendOtp();
+$otpResponse = DKBSign::sendOtp();
 // $otpResponse->body['email'], expires_in_minutes, etc.
 
 // 2. Signature (nouvelle session fluide à chaque appel)
-$response = Dkbsign::sign()
+$response = DKBSign::sign()
     ->setFile(storage_path('app/document.pdf'))
     ->setSignatureImage(storage_path('app/signature.png'))
     ->setSignatureLevel(SignatureLevel::SIMPLE)
@@ -97,16 +97,16 @@ $response = Dkbsign::sign()
 ## Utilisation (sans Facade)
 
 ```php
-use Dkbs\LaravelDkbsign\Dkbsign;
+use Dkbs\LaravelDKBSign\DKBSign;
 
-$dkbsign = new Dkbsign(config('dkbsign.base_url'), config('dkbsign.token'));
+$dkbsign = new DKBSign(config('dkbsign.base_url'), config('dkbsign.token'));
 ```
 
-Ou injection : `DkbsignManager` + `$manager->sign()`.
+Ou injection : `DKBSignManager` + `$manager->sign()`.
 
 ## Erreurs
 
-Les erreurs API lèvent `Dkbs\LaravelDkbsign\Exceptions\DkbsignException` (`$e->isTimestampUnavailable()` pour HTTP 503 qualified).
+Les erreurs API lèvent `Dkbs\LaravelDKBSign\Exceptions\DKBSignException` (`$e->isTimestampUnavailable()` pour HTTP 503 qualified).
 
 ## Tests du package
 

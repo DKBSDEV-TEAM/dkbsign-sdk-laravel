@@ -1,12 +1,12 @@
 <?php
 
-namespace Dkbs\LaravelDkbsign\Tests\Unit;
+namespace Dkbs\LaravelDKBSign\Tests\Unit;
 
-use Dkbs\LaravelDkbsign\Enums\FieldType;
-use Dkbs\LaravelDkbsign\Enums\SignatureOrder;
-use Dkbs\LaravelDkbsign\Support\EmailTemplate;
-use Dkbs\LaravelDkbsign\Support\EnvelopePosition;
-use Dkbs\LaravelDkbsign\Support\Signer;
+use Dkbs\LaravelDKBSign\Enums\FieldType;
+use Dkbs\LaravelDKBSign\Enums\SignatureOrder;
+use Dkbs\LaravelDKBSign\Support\EmailTemplate;
+use Dkbs\LaravelDKBSign\Support\EnvelopePosition;
+use Dkbs\LaravelDKBSign\Support\Signer;
 use PHPUnit\Framework\TestCase;
 
 class EnvelopeSupportTest extends TestCase

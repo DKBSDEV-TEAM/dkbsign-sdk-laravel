@@ -1,16 +1,16 @@
 <?php
 
-namespace Dkbs\LaravelDkbsign\Tests\Unit;
+namespace Dkbs\LaravelDKBSign\Tests\Unit;
 
-use Dkbs\LaravelDkbsign\Exceptions\DkbsignException;
-use Dkbs\LaravelDkbsign\Http\DkbsignClient;
+use Dkbs\LaravelDKBSign\Exceptions\DKBSignException;
+use Dkbs\LaravelDKBSign\Http\DKBSignClient;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
-class DkbsignClientTest extends TestCase
+class DKBSignClientTest extends TestCase
 {
     public function test_post_json_decodes_successful_response(): void
     {
@@ -29,7 +29,7 @@ class DkbsignClientTest extends TestCase
             new Response(401, [], json_encode(['message' => 'Invalid authentication token'], JSON_THROW_ON_ERROR)),
         ]);
 
-        $this->expectException(DkbsignException::class);
+        $this->expectException(DKBSignException::class);
         $this->expectExceptionMessage('Invalid authentication token');
 
         $client->postJson('api/v4/sign/otp');
@@ -94,14 +94,14 @@ class DkbsignClientTest extends TestCase
     /**
      * @param  list<Response>  $responses
      */
-    private function clientWithResponses(array $responses): DkbsignClient
+    private function clientWithResponses(array $responses): DKBSignClient
     {
         $http = new Client([
             'handler' => HandlerStack::create(new MockHandler($responses)),
             'http_errors' => false,
         ]);
 
-        return new DkbsignClient('https://api.dkbsign.test', 'test-token', 30, $http);
+        return new DKBSignClient('https://api.dkbsign.test', 'test-token', 30, $http);
     }
 
     private function tempFile(string $name, string $contents): string

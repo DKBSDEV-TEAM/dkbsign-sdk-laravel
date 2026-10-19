@@ -1,18 +1,18 @@
 <?php
 
-namespace Dkbs\LaravelDkbsign;
+namespace Dkbs\LaravelDKBSign;
 
-use Dkbs\LaravelDkbsign\Enums\SignatureLevel;
-use Dkbs\LaravelDkbsign\Exceptions\DkbsignException;
-use Dkbs\LaravelDkbsign\Http\ApiResponse;
-use Dkbs\LaravelDkbsign\Http\DkbsignClient;
-use Dkbs\LaravelDkbsign\Support\Field;
+use Dkbs\LaravelDKBSign\Enums\SignatureLevel;
+use Dkbs\LaravelDKBSign\Exceptions\DKBSignException;
+use Dkbs\LaravelDKBSign\Http\ApiResponse;
+use Dkbs\LaravelDKBSign\Http\DKBSignClient;
+use Dkbs\LaravelDKBSign\Support\Field;
 use InvalidArgumentException;
 use JsonException;
 
-class Dkbsign
+class DKBSign
 {
-    private readonly DkbsignClient $client;
+    private readonly DKBSignClient $client;
 
     private ?string $filePath = null;
 
@@ -29,9 +29,9 @@ class Dkbsign
         private readonly string $baseUrl,
         private readonly string $token,
         private readonly int $timeout = 120,
-        ?DkbsignClient $client = null,
+        ?DKBSignClient $client = null,
     ) {
-        $this->client = $client ?? new DkbsignClient($baseUrl, $token, $timeout);
+        $this->client = $client ?? new DKBSignClient($baseUrl, $token, $timeout);
     }
 
     public function sendOtp(): ApiResponse
@@ -83,21 +83,21 @@ class Dkbsign
     }
 
     /**
-     * @throws DkbsignException
+     * @throws DKBSignException
      * @throws JsonException
      */
     public function selfSign(int $otpCode, ?string $mfaCode = null, ?string $secondOtpCode = null): ApiResponse
     {
         if ($this->filePath === null || ! is_readable($this->filePath)) {
-            throw new DkbsignException('PDF file not readable: '.($this->filePath ?? '(not set)'));
+            throw new DKBSignException('PDF file not readable: '.($this->filePath ?? '(not set)'));
         }
 
         if ($this->fieldsByPage === []) {
-            throw new DkbsignException('At least one field is required. Use addField() before selfSign().');
+            throw new DKBSignException('At least one field is required. Use addField() before selfSign().');
         }
 
         if ($this->signatureImagePath !== null && ! is_readable($this->signatureImagePath)) {
-            throw new DkbsignException('Signature image not readable: '.$this->signatureImagePath);
+            throw new DKBSignException('Signature image not readable: '.$this->signatureImagePath);
         }
 
         $params = $this->buildParams($otpCode, $mfaCode, $secondOtpCode);

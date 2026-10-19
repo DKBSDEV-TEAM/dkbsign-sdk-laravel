@@ -1,6 +1,6 @@
 <?php
 
-namespace Dkbs\LaravelDkbsign\Http;
+namespace Dkbs\LaravelDKBSign\Http;
 
 readonly class ApiResponse
 {

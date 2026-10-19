@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Dkbs\LaravelDkbsign\Exceptions\DkbsignException;
-use Dkbs\LaravelDkbsign\Http\DkbsignClient;
+use Dkbs\LaravelDKBSign\Exceptions\DKBSignException;
+use Dkbs\LaravelDKBSign\Http\DKBSignClient;
 
 require __DIR__.'/bootstrap.php';
 
@@ -15,7 +15,7 @@ if ($url === null || $url === '') {
     exit(1);
 }
 
-$client = new DkbsignClient(
+$client = new DKBSignClient(
     (string) dkbsign_config('base_url'),
     (string) dkbsign_config('token'),
     (int) dkbsign_config('timeout'),
@@ -23,7 +23,7 @@ $client = new DkbsignClient(
 
 try {
     $bytes = $client->downloadBinary($url);
-} catch (DkbsignException $e) {
+} catch (DKBSignException $e) {
     fwrite(STDERR, $e->getMessage().PHP_EOL);
     exit(1);
 }

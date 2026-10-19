@@ -1,6 +1,6 @@
 <?php
 
-namespace Dkbs\LaravelDkbsign\Enums;
+namespace Dkbs\LaravelDKBSign\Enums;
 
 enum SignatureLevel: string
 {
