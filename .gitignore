@@ -3,6 +3,7 @@
 .phpunit.cache/
 .phpunit.result.cache
 /examples/storage/document.pdf
+/examples/storage/last-envelope.json
 /examples/storage/signature.png
 /examples/storage/signature.jpg
 *.pdf

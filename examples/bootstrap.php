@@ -47,3 +47,25 @@ function dkbsign_client(): Dkbs\LaravelDKBSign\DKBSign
         (int) dkbsign_config('timeout'),
     );
 }
+
+function dkbsign_manager(): Dkbs\LaravelDKBSign\DKBSignManager
+{
+    $token = (string) dkbsign_config('token');
+    if ($token === '') {
+        fwrite(STDERR, "DKBSIGN_TOKEN manquant. Copie .env.example vers .env et mets ta clé API.\n");
+        exit(1);
+    }
+
+    $client = new Dkbs\LaravelDKBSign\Http\DKBSignClient(
+        (string) dkbsign_config('base_url'),
+        $token,
+        (int) dkbsign_config('timeout'),
+    );
+
+    return new Dkbs\LaravelDKBSign\DKBSignManager(
+        $client,
+        (string) dkbsign_config('base_url'),
+        $token,
+        (int) dkbsign_config('timeout'),
+    );
+}
