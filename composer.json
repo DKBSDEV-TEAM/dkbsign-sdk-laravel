@@ -1,9 +1,14 @@
 {
     "name": "dkbs/dkbsign-sdk-laravel",
-    "description": "",
+    "description": "Laravel SDK for DKBSign self-sign",
     "keywords": [
         "dkbs",
-        "dkbsign-sdk-laravel"
+        "dkbsign",
+        "dkbsign-sdk-laravel",
+        "laravel",
+        "signature",
+        "self-sign",
+        "pdf"
     ],
     "homepage": "https://github.com/dkbs/dkbsign-sdk-laravel",
     "license": "MIT",
@@ -16,27 +21,27 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0",
-        "illuminate/support": "^8.0"
+        "php": "^8.2",
+        "guzzlehttp/guzzle": "^7.8",
+        "illuminate/support": "^11.0|^12.0|^13.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.0",
-        "phpunit/phpunit": "^9.0"
+        "orchestra/testbench": "^10.0",
+        "phpunit/phpunit": "^11.0"
     },
     "autoload": {
         "psr-4": {
-            "Dkbs\\DkbsignSdkLaravel\\": "src"
+            "Dkbs\\LaravelDkbsign\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Dkbs\\DkbsignSdkLaravel\\Tests\\": "tests"
+            "Dkbs\\LaravelDkbsign\\Tests\\": "tests/"
         }
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
-
     },
     "config": {
         "sort-packages": true
@@ -44,10 +49,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Dkbs\\DkbsignSdkLaravel\\DkbsignSdkLaravelServiceProvider"
+                "Dkbs\\LaravelDkbsign\\DkbsignServiceProvider"
             ],
             "aliases": {
-                "DkbsignSdkLaravel": "Dkbs\\DkbsignSdkLaravel\\DkbsignSdkLaravelFacade"
+                "Dkbsign": "Dkbs\\LaravelDkbsign\\Facades\\Dkbsign"
             }
         }
     }

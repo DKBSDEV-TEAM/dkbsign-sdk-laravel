@@ -1,0 +1,9 @@
+/vendor/
+.env
+.phpunit.cache/
+.phpunit.result.cache
+/examples/storage/document.pdf
+/examples/storage/signature.png
+/examples/storage/signature.jpg
+*.pdf
+!examples/storage/README.txt
