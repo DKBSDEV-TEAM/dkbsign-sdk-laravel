@@ -1,8 +1,8 @@
 # dkbs/dkbsign-sdk-laravel
 
-Package Laravel pour le **self-sign DKBSign** (un signataire : titulaire du token API).
+Package Laravel pour **DKBSign** : **self-sign** (titulaire du token) et **enveloppes** multi-signataires (création + invitation email).
 
-Flux : **OTP** → **signature multipart** du PDF. API inspirée du [SDK PHP DKBSign](https://api.dkbsigns.com).
+API inspirée du [SDK PHP DKBSign](https://api.dkbsigns.com).
 
 ## Prérequis
 
@@ -26,7 +26,29 @@ php examples/send-otp.php
 php examples/sign.php --otp=123456
 ```
 
-Ces scripts utilisent la classe `DKBSign` directement (pas besoin d’`artisan`).
+Ces scripts utilisent le SDK directement (pas besoin d’`artisan`).
+
+### Enveloppes (exemples)
+
+1. Créer le parapheur (HTTP **201**, sans envoi d’email automatique) :
+
+```bash
+php examples/create-envelope.php
+```
+
+2. Inviter le signataire (HTTP **202**, file d’envoi) :
+
+```bash
+php examples/send-invitation.php --from-last-envelope
+```
+
+Ou avec email et URL explicites :
+
+```bash
+php examples/send-invitation.php --email=jane@example.com --url="https://..."
+```
+
+Variable optionnelle : `DKBSIGN_TEST_SIGNER_EMAIL` pour l’email du signataire dans `create-envelope.php`.
 
 ## Installation
 
@@ -104,6 +126,53 @@ $dkbsign = new DKBSign(config('dkbsign.base_url'), config('dkbsign.token'));
 
 Ou injection : `DKBSignManager` + `$manager->sign()`.
 
+## Enveloppes (Facade)
+
+```php
+use Dkbs\LaravelDKBSign\Facades\DKBSign;
+use Dkbs\LaravelDKBSign\Enums\FieldType;
+use Dkbs\LaravelDKBSign\Enums\SignatureLevel;
+use Dkbs\LaravelDKBSign\Enums\SignatureOrder;
+use Dkbs\LaravelDKBSign\Support\EmailTemplate;
+use Dkbs\LaravelDKBSign\Support\EnvelopePosition;
+use Dkbs\LaravelDKBSign\Support\Signer;
+
+// 1. Créer l’enveloppe (201)
+$envelope = DKBSign::envelope()
+    ->setDocuments([storage_path('app/nda.pdf'), storage_path('app/annex.pdf')])
+    ->setEnvelopeTitle('NDA')
+    ->setEnvelopeDescription('Please sign this NDA')
+    ->setSignatureOrder(SignatureOrder::ORDERED)
+    ->setSignatureLevel(SignatureLevel::ADVANCED)
+    ->setSigners([
+        new Signer(
+            firstName: 'Jane',
+            lastName: 'Doe',
+            email: 'jane@example.com',
+            phone: '+2250700000001',
+            priority: 1,
+            positions: [
+                new EnvelopePosition(
+                    x: 120, y: 200, width: 200, height: 70,
+                    page: 0, fieldType: FieldType::SIGNATURE, documentIndex: 0,
+                ),
+            ],
+        ),
+    ])
+    ->envelopes();
+
+// 2. Inviter (202)
+$signer = $envelope->body['signers'][0];
+
+$queued = DKBSign::sendInvitation(
+    recipientEmail: $signer['email'],
+    subject: 'Document awaiting signature',
+    emailTemplate: new EmailTemplate($signer['signing_url']),
+);
+```
+
+Pas d’OTP côté initiateur : les signataires signent via `signing_url` dans le navigateur.
+
 ## Erreurs
 
 Les erreurs API lèvent `Dkbs\LaravelDKBSign\Exceptions\DKBSignException` (`$e->isTimestampUnavailable()` pour HTTP 503 qualified).
@@ -119,6 +188,9 @@ Tests avec **Guzzle mock** (pas d’appel réseau réel).
 
 ## Périmètre
 
-Inclus : `POST /api/v4/sign/otp`, `POST /api/v4/sign`.
+Inclus :
 
-Non inclus : enveloppes multi-signataires, signature publique, vault, workflows.
+- Self-sign : `POST /api/v4/sign/otp`, `POST /api/v4/sign`
+- Enveloppes (initiateur) : `POST /api/v4/envelopes`, `POST /api/notifications/email`
+
+Non inclus : flux public signataire (`/api/v4/public/envelopes/...`), vault, workflows, listes / suivi avancé des parapheurs.

@@ -4,6 +4,7 @@ namespace Dkbs\LaravelDKBSign\Tests\Feature;
 
 use Dkbs\LaravelDKBSign\DKBSign;
 use Dkbs\LaravelDKBSign\DKBSignManager;
+use Dkbs\LaravelDKBSign\EnvelopeBuilder;
 use Dkbs\LaravelDKBSign\Facades\DKBSign as DKBSignFacade;
 use Dkbs\LaravelDKBSign\Http\DKBSignClient;
 use Dkbs\LaravelDKBSign\Tests\TestCase;
@@ -31,5 +32,25 @@ class ServiceProviderTest extends TestCase
     public function test_facade_resolves_to_manager(): void
     {
         $this->assertInstanceOf(DKBSignManager::class, DKBSignFacade::getFacadeRoot());
+    }
+
+    public function test_manager_envelope_returns_fresh_builder(): void
+    {
+        $manager = $this->app->make(DKBSignManager::class);
+
+        $first = $manager->envelope();
+        $second = $manager->envelope();
+
+        $this->assertInstanceOf(EnvelopeBuilder::class, $first);
+        $this->assertNotSame($first, $second);
+    }
+
+    public function test_facade_envelope_returns_fresh_builder(): void
+    {
+        $first = DKBSignFacade::envelope();
+        $second = DKBSignFacade::envelope();
+
+        $this->assertInstanceOf(EnvelopeBuilder::class, $first);
+        $this->assertNotSame($first, $second);
     }
 }
